@@ -2,12 +2,14 @@
      fxLayout="column"
      fxLayoutGap="10px">
 
-  <div fxFlex>
+  <!-- <div fxFlex>
     <div>
       <h3>Menu</h3>
       <hr>
     </div>
-  </div>
+  </div> -->
+
+  
 
   <div fxFlex>
     <mat-grid-list cols="2" rowHeight="200px">
@@ -20,7 +22,7 @@
     </mat-grid-list>
   </div>
 
-  <div fxFlex *ngIf="selectedDish">
+  <!-- <div fxFlex *ngIf="selectedDish">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
@@ -37,5 +39,6 @@
         <button mat-button>SHARE</button>
       </mat-card-actions>
     </mat-card>
-  </div>
+  </div> -->
 </div>
+<app-dishdetail></app-dishdetail>
