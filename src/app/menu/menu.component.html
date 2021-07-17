@@ -2,6 +2,16 @@
      fxLayout="column"
      fxLayoutGap="10px">
 
+
+     <div fxFlex>
+      <div>
+        <h3>Menu</h3>
+        <hr>
+      </div>
+    </div>
+
+
+
   <div fxFlex>
     <mat-grid-list cols="2" rowHeight="200px">
       <mat-grid-tile *ngFor="let dish of dishes" (click) = "onSelect(dish)">
