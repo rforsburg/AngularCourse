@@ -1,7 +1,4 @@
-import { stringify } from "@angular/core/src/util"
-
 export class Promotion {
-
     id: string
     name: string
     image: string

@@ -1,0 +1,31 @@
+.round {
+    display:block;
+    width: 100px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+    //padding:5px 4px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.round img {
+    width: 55px;
+}
+
+img {
+    object-fit: cover;
+    border-radius: '50%';
+    width: 100px;
+    height: 100px;
+  }
+
+  .circle-cropper {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 100%;
+    padding-top: 100%;
+  }
