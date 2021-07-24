@@ -16,13 +16,16 @@ export class HeaderComponent implements OnInit {
   dish: Dish
   promotion: Promotion
 
-  constructor(private dishservice: DishService,
-              private promotionservice: PromotionService,
+  constructor(private dishService: DishService,
+              private promotionService: PromotionService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.dish = this.dishservice.getFeaturedDish();
-   // this.promotion = this.promotionservice.getFeaturedPromotion();
+    this.dishService.getFeaturedDish()
+    .then ((dish) => {this.dish = dish})
+
+    this.promotionService.getFeaturedPromotion()
+    .then((promotion) => {this.promotion = promotion})
   }
 
   openLoginForm() {
