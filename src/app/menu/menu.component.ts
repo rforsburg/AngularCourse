@@ -17,12 +17,12 @@ import { DishService } from '../services/dish.service'
 
     ngOnInit() {
       this.dishService.getDishes()
-      .then((dishes) => { this.dishes = dishes })
+      .subscribe((dishes) => { this.dishes = dishes })
     }
 
 
     onSelect(dish: Dish) {
-      this.selectedDish = dish;
+      subscribe.selectedDish = dish;
     }
 
 
