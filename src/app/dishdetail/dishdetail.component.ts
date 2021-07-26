@@ -5,6 +5,9 @@ import { Location } from '@angular/common'
 import { Dish } from '../shared/dish'
 import { DishService } from '../services/dish.service'
 import { switchMap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ViewChild } from '@angular/core';
+import { CommentFeedback } from '../shared/commentFeedback';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -12,7 +15,32 @@ import { switchMap } from 'rxjs/operators';
 })
 
 export class DishdetailComponent implements OnInit {
+  feedbackForm: FormGroup
+  feedback: CommentFeedback
+  @ViewChild('fform2') feedbackFormDirective
+  submitted: boolean = false
 
+  formErrors = {
+    'name': '',
+    'message': ''
+  };
+
+  validationMessages = {
+    'name': {
+      'required':      'Name is required.',
+      'minlength':     'Name must be at least 2 characters long.',
+      'maxlength':     'Name cannot be more than 25 characters long.'
+    },
+    'message': {
+      'required':      'Comment is required.',
+      'minlength':     'Comment must be at least 3 characters long.'
+    }
+  };
+
+
+  rating: string  = '5'
+  name: string
+  message:string 
 
   dish: Dish
   dishIds: string[]
@@ -22,28 +50,82 @@ export class DishdetailComponent implements OnInit {
   constructor(
     private dishservice: DishService, 
     private location: Location, 
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private fb2: FormBuilder) {this.createForm()}
 
-  ngOnInit() { 
-
+  ngOnInit() {     
     this.dishservice.getDishIds()
       .subscribe((dishIds) => this.dishIds = dishIds)
 
     this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))   
-    .subscribe (dish => { this.dish = dish; this.setPrevNext(dish.id); })
+     .subscribe (dish => { this.dish = dish; this.setPrevNext(dish.id); })
   }
 
   setPrevNext(dishId :string){
     const index = this.dishIds.indexOf(dishId)
     this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
     this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
-
-
-
   }
 
   goBack() :void{
     this.location.back()
   }
 
-}
+  createForm() {
+    this.feedbackForm = this.fb2.group({
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],  
+      rating: '',    
+      message: ['', [Validators.required, Validators.minLength(3)]]
+    })
+    this.feedbackForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    //this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.feedbackForm) { return; }
+    const form = this.feedbackForm;
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        // clear previous error message (if any)
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];          
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  onSubmit() {
+    this.feedback = this.feedbackForm.value
+    this.dish.comments.push({comment: this.feedback.message, author: this.feedback.name, rating: this.feedback.rating.toString(), date: new Date().toString()})
+
+
+    this.feedbackFormDirective.resetForm()    
+    this.feedbackForm.reset({
+      name: '',
+      rating: '5',
+      message: ''
+    })
+    this.submitted = false
+  }
+
+  nameChanged(name) {
+    this.name = name
+  }
+
+  messageChanged(message) {
+    this.message = message
+  }
+  ratingChanged(rating) {
+    this.rating = rating
+  }
+
+}     // Final div

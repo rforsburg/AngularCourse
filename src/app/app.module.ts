@@ -34,6 +34,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { FormsModule } from '@angular/forms'
 import { ReactiveFormsModule } from '@angular/forms' 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSliderModule } from '@angular/material/slider'
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +65,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     ReactiveFormsModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSliderModule
   ],
   providers: [
     DishService,

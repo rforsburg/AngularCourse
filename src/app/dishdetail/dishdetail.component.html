@@ -5,7 +5,6 @@
     fxLayoutAlign.gt-md="space-around center"
     fxLayoutGap="10px" 
     fxLayoutGap.xs="0">
-
   <div fxFlex="40" *ngIf="dish">
     <mat-card >
       <mat-card-header>
@@ -29,23 +28,59 @@
     </mat-card>
   </div>
   
-  <div fxFlex="40" *ngIf="dish">
-    <mat-card >
-      <mat-card-header>
-        <mat-card-title>
-          <h3>Comments</h3>
-        </mat-card-title>
-      </mat-card-header>
+  <div fxLayout="column">
+    <div fxFlex="40" *ngIf="dish">
+      <mat-card >
+        <mat-card-header>
+          <mat-card-title>
+            <h3>Comments</h3>
+          </mat-card-title>
+        </mat-card-header>
 
-      <mat-card-content>
-        <div *ngFor= "let comment of dish.comments" style="padding-left:22px;">
-        <div>{{comment.comment}}</div>
-          <div>{{comment.rating}} stars</div>
-          <div>-- {{comment.author}} {{comment.date | date }} </div>
-          <p></p> 
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div> 
+        <mat-card-content>
+          <div *ngFor= "let comment of dish.comments" style="padding-left:22px;">
+            <div>{{comment.comment}}</div>
+            <div>{{comment.rating}} stars</div>
+            <div>-- {{comment.author}} {{comment.date | date }} </div>
+            <p></p> 
+          </div>
+        </mat-card-content>
 
-</div>
+      </mat-card>      
+    </div>
+
+    <div *ngIf=feedbackForm.valid style="padding-left:22px;">
+      <div>
+      <p></p>
+      <div>{{message}}</div>
+      <div>{{rating}} stars</div>
+      <div>-- {{name}} </div>
+      </div>
+    </div>
+      
+         
+    <div fxFlex fxFlexOffset="20px" class="form-size"> 
+      <form novalidate [formGroup]="feedbackForm" #fform2="ngForm" (ngSubmit)="onSubmit()">
+        <p><mat-form-field class="half-width">
+          <input matInput formControlName="name" (ngModelChange)="nameChanged($event)" placeholder="Name" type="text"  required>
+          <mat-error *ngIf="formErrors.name">
+            {{ formErrors.name }}
+          </mat-error>
+        </mat-form-field>
+       </p>
+       
+         <mat-slider class="half-width" formControlName="rating" min="1" max="5" step="1" (ngModelChange)="ratingChanged($event)" [(ngModel)] = "rating" thumbLabel required></mat-slider> 
+      
+       <p>
+       <mat-form-field class="full-width">
+        <textarea matInput formControlName="message" (ngModelChange)="messageChanged($event)" placeholder="Your Comment" rows=3 required></textarea>
+        <mat-error *ngIf="formErrors.message">
+          {{ formErrors.message }}
+        </mat-error>
+      </mat-form-field>
+       </p>
+       <hr>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid" >Submit</button>
+      </form>
+    </div>
+  </div>

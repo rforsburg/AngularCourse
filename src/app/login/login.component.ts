@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log('User: ', JSON.stringify(this.user))
-    alert(JSON.stringify(this.user))
+    // console.log('User: ', JSON.stringify(this.user))
     this.dialogRef.close()
   }
 

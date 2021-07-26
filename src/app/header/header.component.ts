@@ -22,10 +22,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.dishService.getFeaturedDish()
-    .then ((dish) => {this.dish = dish})
+    .subscribe ((dish) => {this.dish = dish})
 
     this.promotionService.getFeaturedPromotion()
-    .then((promotion) => {this.promotion = promotion})
+    .subscribe((promotion) => {this.promotion = promotion})
   }
 
   openLoginForm() {
