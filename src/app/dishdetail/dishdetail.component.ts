@@ -8,6 +8,8 @@ import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { CommentFeedback } from '../shared/commentFeedback';
+
+
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -19,6 +21,8 @@ export class DishdetailComponent implements OnInit {
   feedback: CommentFeedback
   @ViewChild('fform2') feedbackFormDirective
   submitted: boolean = false
+  dishcopy: Dish;
+
 
   formErrors = {
     'name': '',
@@ -41,6 +45,7 @@ export class DishdetailComponent implements OnInit {
   rating: string  = '5'
   name: string
   message:string 
+  errMess: string
 
   dish: Dish
   dishIds: string[]
@@ -56,10 +61,13 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {     
     this.dishservice.getDishIds()
-      .subscribe((dishIds) => this.dishIds = dishIds)
+      .subscribe((dishIds) => this.dishIds = dishIds,
+      errmess => this.errMess = <any>errmess)
 
-    this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))   
-     .subscribe (dish => { this.dish = dish; this.setPrevNext(dish.id); })
+    this.route.params
+      .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))   
+      .subscribe (dish => { this.dish = dish; this.discopy = dish; this.setPrevNext(dish.id); },
+      errmess => this.errMess = <any>errmess))
   }
 
   setPrevNext(dishId :string){

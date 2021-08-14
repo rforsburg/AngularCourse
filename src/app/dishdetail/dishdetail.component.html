@@ -57,7 +57,7 @@
       <div>-- {{name}} </div>
       </div>
     </div>
-      
+    <p></p>  
          
     <div fxFlex fxFlexOffset="20px" class="form-size"> 
       <form novalidate [formGroup]="feedbackForm" #fform2="ngForm" (ngSubmit)="onSubmit()">
@@ -67,10 +67,8 @@
             {{ formErrors.name }}
           </mat-error>
         </mat-form-field>
-       </p>
-       
+       </p>       
          <mat-slider class="half-width" formControlName="rating" min="1" max="5" step="1" (ngModelChange)="ratingChanged($event)" [(ngModel)] = "rating" thumbLabel required></mat-slider> 
-      
        <p>
        <mat-form-field class="full-width">
         <textarea matInput formControlName="message" (ngModelChange)="messageChanged($event)" placeholder="Your Comment" rows=3 required></textarea>
@@ -83,4 +81,14 @@
       <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid" >Submit</button>
       </form>
     </div>
+
+    <div fxFlex [hidden]="dish || errorMess">
+      <mat-spinner><h4> Loading ... Please Wait"</h4></mat-spinner>
+    </div>
+    <div fxFlex *ngIf="errMess">
+      <h2>Error </h2>
+      <h4>{{errMess}}</h4>
+    </div>
+
+
   </div>
