@@ -66,9 +66,9 @@ export class DishdetailComponent implements OnInit {
 
     this.route.params
       .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))   
-      .subscribe (dish => { this.dish = dish; this.discopy = dish; this.setPrevNext(dish.id); },
-      errmess => this.errMess = <any>errmess))
-  }
+      .subscribe (dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+      errmess => this.errMess = <any>errmess)
+    }
 
   setPrevNext(dishId :string){
     const index = this.dishIds.indexOf(dishId)
@@ -93,7 +93,7 @@ export class DishdetailComponent implements OnInit {
   }
 
   onValueChanged(data?: any) {
-    if (!this.feedbackForm) { return; }
+    // if (!this.feedbackForm) { return }
     const form = this.feedbackForm;
     for (const field in this.formErrors) {
       if (this.formErrors.hasOwnProperty(field)) {
@@ -114,13 +114,14 @@ export class DishdetailComponent implements OnInit {
 
   onSubmit() {
     this.feedback = this.feedbackForm.value
-    this.dish.comments.push({comment: this.feedback.message, author: this.feedback.name, rating: this.feedback.rating.toString(), date: new Date().toString()})
+    // this.dish.comments.push({comment: this.feedback.message, author: this.feedback.name, rating: this.feedback.rating.toString(), date: new Date().toString()})
+    this.dish.comments.push({comment: this.feedback.message, author: this.feedback.name, rating: 0, date: new Date().toString()})
 
 
     this.feedbackFormDirective.resetForm()    
     this.feedbackForm.reset({
       name: '',
-      rating: '5',
+      rating: 5,
       message: ''
     })
     this.submitted = false

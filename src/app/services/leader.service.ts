@@ -18,6 +18,4 @@ export class LeaderService {
   getFeaturedLeader(): Observable <Leader> {
     return of(LEADERS.filter((leader) => leader.featured)[0]).pipe(delay(2000))
   }
-
-
 }

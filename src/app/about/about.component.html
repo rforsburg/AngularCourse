@@ -59,7 +59,7 @@
     <mat-grid-list cols="1" rowHeight="120px"  >
       <div  *ngFor="let leader of leaders">
         <mat-grid-tile>
-            <img class="round" src={{leader.image}} alt={{leader.name}}  />
+            <img class="round" src="{{BaseURL + leader.image}}" alt={{leader.name}}  />
             
             {{leader.name}} {{leader.abbr}} <br/>
             {{leader.designation}}<br/>

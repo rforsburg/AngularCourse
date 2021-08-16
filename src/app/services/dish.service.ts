@@ -39,13 +39,14 @@ getDishIds(): Observable <string[] | any>{
     .pipe(catchError(error => error))
 }
 
-putDish(dish: Dish): Observable<Dish> {
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
-  };
-  return this.http.put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
-    .pipe(catchError(this.processHTTPMsgService.handleError));
+// putDish(dish: Dish): Observable<Dish> {
+//   const httpOptions = {
+//     headers: new HttpHeaders({
+//       'Content-Type':  'application/json'
+//     })
+//   };
+//   return this.http.put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
+//     .pipe(catchError(this.processHTTPMsgService.handleError));
 
+// }
 }
