@@ -37,7 +37,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSliderModule } from '@angular/material/slider'
 import { HttpClientModule } from '@angular/common/http';
 import { baseURL } from './shared/baseurl'
-import { ProcessHTTPMsgService } from './services/process-httpmsg.service'
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { DirectivesDirective } from './directives.directive';
+import { HighlightDirective } from './directives/highlight.directive'
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service'
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    DirectivesDirective,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
