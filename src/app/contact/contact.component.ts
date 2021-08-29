@@ -1,19 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { flyInOut } from '../animations/app.animation';
 import { Feedback, ContactType } from '../shared/feedback';
+import { FeedbackService } from '../services/feedback.service'
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss'],
-  host:{
-    '[@flyInOut]': 'true',
-     'style': 'display: block'
-  },
-  animations:[
-    flyInOut()
-  ]
+  styleUrls: ['./contact.component.scss']
 })
 
 export class ContactComponent implements OnInit {
@@ -21,6 +14,8 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup
   feedback: Feedback
   contactType = ContactType
+  feedbackErrMsg: string
+  feedbackResponse: Feedback
   @ViewChild('fform') feedbackFormDirective
 
   formErrors = {
@@ -52,7 +47,8 @@ export class ContactComponent implements OnInit {
   };
 
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder,
+    private feedbackService: FeedbackService) { 
     this.createForm()
   }
 
@@ -63,7 +59,7 @@ export class ContactComponent implements OnInit {
     this.feedbackForm = this.fb.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
-      telnum: [0, [Validators.required, Validators.pattern] ],
+      telnum: ['', [Validators.required, Validators.pattern] ],      
       email: ['', [Validators.required, Validators.email] ],
       agree: false,
       contacttype: 'None',
@@ -71,32 +67,48 @@ export class ContactComponent implements OnInit {
     })
     this.feedbackForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
-
     //this.onValueChanged(); // (re)set validation messages now
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value
     
+    this.feedback = this.feedbackForm.value
+    console.log(this.feedback)
+
+    //this.feedbackService.postFeedback(this.feedback)
+    //.subscribe ((feedbackr) => {this.feedback = feedbackr},
+    //errMess => this.feedbackErrMsg = <any>errMess) 
+
+    this.feedbackService.postFeedback(this.feedback)
+    .subscribe(
+      res => {
+        let respond: Feedback = res.body
+        console.log(respond)
+      }
+    )
+
+
+
     this.feedbackFormDirective.resetForm()    
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
-      telnum: 0,
+      telnum: '',
       email: '',
       agree: false,
       contacttype: 'None',
       message: ''
     })
+
+    
+
   }
 
 
   onValueChanged(data?: any) {
     if (!this.feedbackForm) { return; }
     const form = this.feedbackForm;
-
     for (const field in this.formErrors) {
-
       if (this.formErrors.hasOwnProperty(field)) {
         // clear previous error message (if any)
         this.formErrors[field] = '';

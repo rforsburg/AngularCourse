@@ -18,7 +18,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component'
+import { ContactComponent } from './contact/contact.component';
 
 import { DishService} from './services/dish.service';
 import { PromotionService} from './services/promotion.service';
@@ -38,6 +38,7 @@ import { MatSliderModule } from '@angular/material/slider'
 import { HttpClientModule } from '@angular/common/http';
 import { baseURL } from './shared/baseurl'
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { FeedbackService } from './services/feedback.service'
 import { DirectivesDirective } from './directives.directive';
 import { HighlightDirective } from './directives/highlight.directive'
 
@@ -82,6 +83,7 @@ import { HighlightDirective } from './directives/highlight.directive'
     PromotionService,
     LeaderService,
     ProcessHTTPMsgService,
+    FeedbackService,
     { provide: 'BaseURL', useValue: baseURL }
   ],
   entryComponents: [
