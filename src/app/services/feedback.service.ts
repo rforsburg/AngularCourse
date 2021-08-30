@@ -21,11 +21,6 @@ export class FeedbackService {
     private http: HttpClient, 
     private processHTTPMsgService: ProcessHTTPMsgService ) { }
 
-
-    // httpHeader = {
-    //   headers: new HttpHeaders({'Content-Type': 'application/json'})
-    // }
-
     httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
     
     postFeedback(feedback): Observable<HttpResponse<Feedback>> {
@@ -34,17 +29,9 @@ export class FeedbackService {
         observe: 'response'}
       )
       .pipe(catchError(this.processHTTPMsgService.handleError))
+
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -2,11 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { FeedbackService } from '../services/feedback.service'
-
+import { expand } from '../animations/app.animation'
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  animations:[
+    expand()
+  ]
 })
 
 export class ContactComponent implements OnInit {
@@ -17,6 +20,17 @@ export class ContactComponent implements OnInit {
   feedbackErrMsg: string
   feedbackResponse: Feedback
   @ViewChild('fform') feedbackFormDirective
+  hideForm = false
+  hideSubmitting = true
+  hideResponse = true
+
+  firstname: string
+  lastname: string
+  telnum: number   
+  email: string
+  agree: boolean
+  contacttype: string
+  message: string
 
   formErrors = {
     'firstname': '',
@@ -71,39 +85,30 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    
+    this.hideForm = true
+    this.hideSubmitting = false
     this.feedback = this.feedbackForm.value
-    console.log(this.feedback)
-
-    //this.feedbackService.postFeedback(this.feedback)
-    //.subscribe ((feedbackr) => {this.feedback = feedbackr},
-    //errMess => this.feedbackErrMsg = <any>errMess) 
 
     this.feedbackService.postFeedback(this.feedback)
     .subscribe(
       res => {
-        let respond: Feedback = res.body
-        console.log(respond)
+        let returnData: Feedback = res.body
+        this.hideSubmitting=true
+        this.hideResponse=false
+        this.firstname = returnData.firstname
+        this.lastname = returnData.lastname
+        this.telnum = returnData.telnum   
+        this.email = returnData.email
+        this.agree = returnData.agree
+        this.contacttype = returnData.contacttype
+        this.message = returnData.message
+
+        setTimeout(() => {  this.feedbackFormDirective.resetForm()
+                            this.hideResponse=true
+                            this.hideForm=false}, 5000);
       }
     )
-
-
-
-    this.feedbackFormDirective.resetForm()    
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    })
-
-    
-
   }
-
 
   onValueChanged(data?: any) {
     if (!this.feedbackForm) { return; }
